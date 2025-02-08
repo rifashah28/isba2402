@@ -1,0 +1,11 @@
+SELECT painting.title FROM painting INNER JOIN artist
+ON artist.a_id = painting.a_id
+WHERE artist.artist_name = 'Van Gogh';
+
+SELECT artist.artist_name FROM artist RIGHT OUTER JOIN painting
+ON artist.a_id = painting.a_id
+WHERE painting.title = 'Mona Lisa';
+
+SELECT DISTINCT artist.artist_name FROM artist RIGHT OUTER JOIN painting
+ON artist.a_id = painting.a_id
+WHERE state='KY' or state='IN';

@@ -1,0 +1,18 @@
+SET @STR := "SQL Tutorial";
+
+SELECT SUBSTRING(@STR, 5, 3);
+
+SELECT REPLACE(@STR, 'l', '_');
+
+SELECT CASE WHEN @STR LIKE '% t%' OR @STR LIKE ' t%' THEN 'Yes' ELSE 'No'
+END;
+
+SELECT name as driver, SUM(miles) AS total_miles, AVG(miles) AS avg_miles,
+MIN(miles) AS min_miles, MAX(miles) AS max_miles, STDDEV(miles) AS sd_miles
+FROM driver_log
+GROUP BY name;
+
+SELECT srchost, COUNT(*) AS count, REPEAT('*',COUNT(*)) AS histogram
+FROM mail
+GROUP BY srchost
+ORDER BY count DESC;

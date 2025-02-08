@@ -1,0 +1,42 @@
+(SELECT CONCAT(srcuser, '@', srchost) AS user, COUNT(*) AS sent_emails,
+0 AS received_emails
+FROM mail
+GROUP BY srcuser, srchost
+ORDER BY sent_emails DESC
+LIMIT 4) UNION
+(SELECT CONCAT(dstuser, '@', dsthost) AS user, 0 AS sent_emails,
+COUNT(*) AS received_emails
+FROM mail
+GROUP BY dstuser, dsthost
+ORDER BY received_emails DESC
+LIMIT 4)
+ORDER BY user;
+
+SELECT title
+FROM painting
+WHERE a_id = (SELECT a_id FROM artist WHERE artist_name = 'Van Gogh');
+
+SELECT artist_name
+FROM artist
+WHERE a_id = (SELECT a_id FROM painting WHERE title = 'Mona Lisa');
+
+SELECT artist_name
+FROM artist
+WHERE a_id IN (SELECT a_id FROM painting WHERE state = 'KY' OR state = 'IN');
+
+SELECT 
+    user_email,
+    (SELECT COUNT(*) 
+     FROM mail 
+     WHERE CONCAT(srcuser, '@', srchost) = user_email) AS total_sent,
+    (SELECT COUNT(*) 
+     FROM mail 
+     WHERE CONCAT(dstuser, '@', dsthost) = user_email) AS total_received
+FROM (
+    SELECT DISTINCT CONCAT(srcuser, '@', srchost) AS user_email
+    FROM mail
+    UNION
+    SELECT DISTINCT CONCAT(dstuser, '@', dsthost) AS user_email
+    FROM mail
+) AS unique_users
+ORDER BY total_sent DESC;

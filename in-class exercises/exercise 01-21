@@ -1,0 +1,30 @@
+SELECT name, SUM(miles) AS total_miles
+FROM driver_log
+GROUP BY name
+ORDER BY total_miles DESC
+LIMIT 1;
+
+SELECT reviewer.reviewer_name, movie.title
+FROM Rating r1
+JOIN Rating r2
+ON r1.rID = r2.rID
+AND r1.mID = r2.mID
+AND r1.ratingDate < r2.ratingDate
+AND r1.stars < r2.stars
+JOIN Movie movie
+ON r1.mID = movie.mID
+JOIN Reviewer reviewer ON r1.rID = reviewer.rID;
+
+SELECT movie.title, MAX(r.stars) AS number_of_stars
+FROM Rating r
+JOIN Movie movie
+ON r.mID = movie.mID
+GROUP BY movie.title
+ORDER BY movie.title;
+
+SELECT movie.title,
+(MAX(r.stars) - MIN(r.stars)) AS rating_spread
+FROM Rating r
+JOIN Movie movie ON r.mID = movie.mID
+GROUP BY movie.title
+ORDER BY rating_spread DESC, movie.title;
